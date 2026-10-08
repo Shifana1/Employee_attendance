@@ -1,0 +1,35 @@
+{
+  "airflow-task-details": {
+    "employee-hr-data": {
+      "spark_details": {
+        "spark_kubernetes_args": {
+          "kubernetes_spark_postfix": "",
+          "pyspark_job_main_file_s3_path": "s3a://workflows/employee_data/dependencies/scripts/employee_hr_data.py",
+          "driver_cores": 1,
+          "driver_memory": "1g",
+          "executor_instances": 1,
+          "executor_cores": 1,
+          "executor_memory": "1g",
+          "spark_dependencies_libraries": "/workflows/sys/libs/postgresql-42.7.3.jar"
+        },
+        "spark_job_args": {
+          "csv_s3_path": "s3a://workflows/employee_data/dependencies/resources/employee_hr_master - employee_master.csv",
+          "output_warehouse_fq_table": "raw.employee.employee_hr_data",
+          "output_wh_table_load_strategy": "overwrite"
+        }
+      }
+    }
+  },
+  "airflow-task-dependencies-details": {
+      "employee-hr-data": [
+        "start",
+        "end"
+      ]
+    },
+    "airflow-dag-details": {
+      "dag_id": "employee_hr_data",
+      "dag_description": "spark submit",
+      "catalog": "raw"
+    }
+
+}

@@ -1,0 +1,62 @@
+# Airflow worker / football-analytics env (trino-ldap → TRINO_* env vars)
+saal_data_model:
+  target: prod
+  outputs:
+    dev:
+      type: trino
+      method: ldap
+      host: "{{ env_var('TRINO_HOST') | replace('https://', '') | replace('http://', '') }}"
+      port: "{{ env_var('TRINO_PORT', '443') | as_number }}"
+      user: "{{ env_var('TRINO_USER') }}"
+      password: "{{ env_var('TRINO_PASSWORD') }}"
+      database: "{{ env_var('TRINO_DATABASE', 'dataproducts') }}"
+      schema: "{{ env_var('TRINO_SCHEMA', 'employee') }}"
+      threads: 4
+      http_scheme: https
+      retries: 3
+      prepared_statements_enabled: false
+    prod:
+      type: trino
+      method: ldap
+      host: "{{ env_var('TRINO_HOST') | replace('https://', '') | replace('http://', '') }}"
+      port: "{{ env_var('TRINO_PORT', '443') | as_number }}"
+      user: "{{ env_var('TRINO_USER') }}"
+      password: "{{ env_var('TRINO_PASSWORD') }}"
+      database: "{{ env_var('TRINO_DATABASE', 'dataproducts') }}"
+      schema: "{{ env_var('TRINO_SCHEMA', 'employee') }}"
+      threads: 8
+      http_scheme: https
+      retries: 3
+      prepared_statements_enabled: false
+
+# Local JWT profile (optional)
+saal_trino:
+  target: dev
+  outputs:
+    dev:
+      type: trino
+      method: jwt
+      jwt_token: "{{ env_var('TRINO_JWT_TOKEN') }}"
+      host: trino-prod.digixt.ae
+      port: 443
+      user: admin
+      database: "{{ env_var('TRINO_DATABASE', 'dataproducts') }}"
+      schema: "{{ env_var('TRINO_SCHEMA', 'employee') }}"
+      http_scheme: https
+      threads: 4
+      retries: 3
+      prepared_statements_enabled: false
+
+    prod:
+      type: trino
+      method: jwt
+      jwt_token: "{{ env_var('TRINO_JWT_TOKEN') }}"
+      host: trino-prod.digixt.ae
+      port: 443
+      user: admin
+      database: "{{ env_var('TRINO_DATABASE', 'dataproducts') }}"
+      schema: "{{ env_var('TRINO_SCHEMA', 'employee') }}"
+      http_scheme: https
+      threads: 8
+      retries: 3
+      prepared_statements_enabled: false

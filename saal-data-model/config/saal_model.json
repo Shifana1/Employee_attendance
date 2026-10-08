@@ -1,0 +1,33 @@
+{
+  "airflow-task-details": {
+    "saal-data-model-dbt": {
+      "dbt_details": {
+        "dbt_project_local_path": ".",
+        "dbt_target": "prod",
+        "dbt_commands": [
+          "dbt run --select path:models/staging/employee",
+          "dbt run --select path:models/intermediate",
+          "dbt run --select path:models/semantic",
+          "dbt test --select employee_attendance employee_attendance_report employee_attendance_status employee_hr_attendance_status employee_departments int_attendance_day"
+        ],
+        "trino_conn_id": "trino-ldap",
+        "trino_database": "dataproducts",
+        "trino_schema": "employee",
+        "run_on_airflow_worker": true
+      }
+    }
+  },
+  "airflow-task-dependencies-details": {
+    "saal-data-model-dbt": [
+      "start",
+      "end"
+    ]
+  },
+  "airflow-dag-details": {
+    "dag_id": "saal_model",
+    "dag_description": "saal-data-model dbt via Trino on the Airflow worker",
+    "catalog": "dataproducts",
+    "schedule_interval": "",
+    "tags": ["saal", "dbt"]
+  }
+}

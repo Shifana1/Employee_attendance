@@ -1,0 +1,9 @@
+{
+  "start_date": {"year": 2025, "month": 2, "day": 1},
+  "schedule_interval": "@daily",
+  "catchup": false,
+  "tags": ["dbt", "saal", "saal_data_model"],
+  "max_active_tasks": 2,
+  "target_catalog": "dataproducts",
+  "target_schema": "employee"
+}

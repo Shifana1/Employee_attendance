@@ -1,0 +1,110 @@
+,,,,,,,,,,,
+,Employee ID,Status,Business Unit,Full Name,Designation,Department,Gender,Date of Joining,Nationality,Email,Direct Manager
+,434,Active,SAAL Operating System,Abdul Hannan,Multimedia Specialist,"Business Development, Marketing and Sales",Male,2023-11-15 00:00:00,Pakistani,abdul@saal.ai,Arun Arikath
+,604,Active,SAAL Operating System,Abdulrahman Hasan Ali Abdulwahab Almarzooqi,AI Product Owner,Artificial Intelligence,Male,2025-09-23 00:00:00,Emirati,abdulrahman.almarzooqi@saal.ai,Abrar Abdul Nabi
+,603,Active,SAAL Operating System,Abdulrahman Mohamed Ali Mohamed Kamar,Senior Machine Learning Engineer,Artificial Intelligence,Male,2025-10-01 00:00:00,Egyptian,abdulrahman.kamar@saal.ai,Abrar Abdul Nabi
+,135,Active,SAAL Operating System,Abrar Abdul Nabi,Director of Artificial Intelligence,Artificial Intelligence,Female,2017-11-19 00:00:00,Jordanian,abrar@saal.ai,Vikraman Padinharekkara
+,149,Active,SAAL Operating System,Ahmad Aldakheel,Product Owner,Product & Design,Male,2021-06-27 00:00:00,Jordanian,ahmad.aldakheel@saal.ai,Satya Prakash Solanki
+,516,Active,SAAL Operating System,Ahmed Afify,Business Development Manager,"Business Development, Marketing and Sales",Male,2024-11-18 00:00:00,Egyptian,ahmed.afify@saal.ai,Wessam Abu Orabi
+,150,Active,SAAL Operating System,Ahmed Albahnasawi,Machine Learning Engineer,Artificial Intelligence,Male,2019-04-28 00:00:00,Palestinian,ahmed.albahnasawy@saal.ai,Abrar Abdul Nabi
+,466,Active,SAAL Operating System,Ahmed Hassan,3D Designer,Military Practice,Male,2024-05-15 00:00:00,Egyptian,ahmed.hussein@saal.ai,Awad Allahawyah
+,503,Active,SAAL Operating System,Ahmed Radhi,Graduate Trainee - Data Science,Data Science,Male,2024-09-23 00:00:00,Bahraini,ahmed.radhi@saal.ai,Muhammad Tahir Khan
+,437,Active,SAAL Operating System,Ahmed Wanas,eLearning Developer,Military Practice,Male,2023-11-27 00:00:00,Egyptian,ahmed.wanas@saal.ai,Awad Allahawyah
+,154,Active,SAAL Operating System,Aliya Valappil,Senior Quality Assurance Engineer,Engineering,Female,2016-09-08 00:00:00,Indian,aliya@saal.ai,Satya Prakash Solanki
+,155,Active,SAAL Operating System,Amal Ghadban,Product Owner,Product & Design,Female,2019-09-29 00:00:00,Palestinian,amal@saal.ai,Aswathy Karthikeyan
+,310,Active,SAAL Operating System,Ambrish Raman,Quantitative Developer,AI Trading,Male,2022-04-04 00:00:00,Indian,ambrish@saal.ai,Harihar Naik
+,320,Active,SAAL Operating System,Amir Bashir,Senior Big Data Engineer,Engineering,Male,2022-06-13 00:00:00,Pakistani,amir@saal.ai,Noorul Razvi Abubacker
+,514,Active,SAAL Operating System,Amnah Khan,Junior Analyst,Business Solutions & Projects,Female,2024-11-11 00:00:00,Indian,amnah@saal.ai,Syam Mohan
+,548,Active,SAAL Operating System,Anant Panse,Lead ERP and Sales Operations Consultant,Business Solutions & Projects,Male,2025-02-17 00:00:00,Indian,anant@saal.ai,Imran Sarwar
+,165,Active,SAAL Operating System,Arlan Rafael,Office Support,Operations,Male,2017-10-31 00:00:00,Filipino,arlan@saal.ai,Maria Coronel
+,161,Active,SAAL Operating System,Arun Arikath,Chief Commercial Officer,"Business Development, Marketing and Sales",Male,2018-07-18 00:00:00,Indian,arun@saal.ai,Vikraman Padinharekkara
+,351,Active,SAAL Operating System,Asif Khan,Senior DevOps Engineer,Engineering,Male,2022-07-04 00:00:00,Indian,asif@saal.ai,Vipulabh Gupta
+,144,Active,SAAL Operating System,Aswathy Karthikeyan,Director of Products,Product & Design,Female,2017-10-01 00:00:00,Indian,aswathy@saal.ai,Vikraman Padinharekkara
+,525,Active,SAAL Operating System,Aurangazeeb Alavakkattu Kunjumuhammed,Data Scientist,Data Science,Male,2024-12-16 00:00:00,Indian,aurangazeeb@saal.ai,Muhammad Tahir Khan
+,168,Active,SAAL Operating System,Awad Allahawyah,Content Manager,Military Practice,Male,2019-08-18 00:00:00,Jordanian,awad@saal.ai,Khaled Aldhaheri
+,352,Active,SAAL Operating System,Chandrajith Muraleedharan,Senior UX Designer,Product & Design,Male,2022-08-01 00:00:00,Indian,chandrajith@saal.ai,Aswathy Karthikeyan
+,552,Active,SAAL Operating System,Diony Abou Jaoude,Consultant - Marketing,"Business Development, Marketing and Sales",Female,2025-03-12 00:00:00,Lebanese,diony@saal.ai,Arun Arikath
+,507,Active,SAAL Operating System,Engy Aly,Project Manager,Business Solutions & Projects,Female,2024-10-01 00:00:00,Egyptian,engy@saal.ai,Syam Mohan
+,198,Active,SAAL Operating System,Faisal Nadeem Bhatti,Senior UI Designer,Product & Design,Male,2017-12-03 00:00:00,Pakistani,faisal@saal.ai,Aswathy Karthikeyan
+,207,Active,SAAL Operating System,Fuaad Karingappara,Data Scientist,Data Science,Male,2021-01-18 00:00:00,Indian,fuaad@saal.ai,Muhammad Tahir Khan
+,613,Active,SAAL Operating System,Ghaith Alameri,Onsite Support Analyst,Military Practice,Male,2026-03-02 00:00:00,Emirati,ghaith@saal.ai,Saed Alhusan
+,608,Active,SAAL Operating System,Gulam Jeelani,HR Payroll & Operations Assistant,Operations,Male,2025-12-03 00:00:00,Indian,Gulam@Saal.ai,Maria Paula De Asis
+,472,Active,SAAL Operating System,Hamda Al Muhannadi,Lead Content Designer,Military Practice,Female,2024-06-03 00:00:00,Emirati,hamda@saal.ai,Awad Allahawyah
+,220,Active,SAAL Operating System,Harihar Naik,Head of Quantitative Research and Development,AI Trading,Male,2021-06-21 00:00:00,Indian,harihar@saal.ai,Vikraman Padinharekkara
+,350,Active,SAAL Operating System,Hemanthakumar Bommireddy,Big Data Engineer,Engineering,Male,2022-07-14 00:00:00,Indian,hemanthakumar@saal.ai,Noorul Razvi Abubacker
+,389,Active,SAAL Operating System,Hitesh Bhardwaj,Quality Assurance Automation Engineer,Engineering,Male,2023-02-09 00:00:00,Indian,hitesh@saal.ai,Satya Prakash Solanki
+,614,Active,SAAL Operating System,Husain Ahmed Alkhadher,Front Office Administrator,Operations,Male,2026-03-17 00:00:00,Emirati,husain.alkhadher@saal.ai,Maria Coronel
+,166,Active,SAAL Operating System,Husam Balas,Manager - Training and Digital Transformation,Military Practice,Male,2021-03-14 00:00:00,Jordanian,husam@saal.ai,Khaled Aldhaheri
+,607,Active,SAAL Operating System,Hussein Ali,Machine Learning Engineer,Artificial Intelligence,Male,2025-11-19 00:00:00,Egyptian,hussein@saal.ai,Abrar Abdul Nabi
+,230,Active,SAAL Operating System,Imran Sarwar,Enterprise Architect and Digital Transformation Manager,Business Solutions & Projects,Male,2021-07-18 00:00:00,Pakistani,imran@saal.ai,Syam Mohan
+,234,Active,SAAL Operating System,Jewel Aloor,DevOps Engineer,Engineering,Male,2018-04-08 00:00:00,Indian,jewel@saal.ai,Vipulabh Gupta
+,357,Active,SAAL Operating System,Jithin Muraleedharan,Digital Marketing Specialist,"Business Development, Marketing and Sales",Male,2022-08-15 00:00:00,Indian,jithin@saal.ai,Arun Arikath
+,383,Active,SAAL Operating System,Kalaivani Arumugam,Data Engineer,Engineering,Female,2023-01-01 00:00:00,Indian,kalaivani@saal.ai,Noorul Razvi Abubacker
+,311,Active,SAAL Operating System,Karthik Chinni,Senior Data Scientist,Data Science,Male,2022-04-25 00:00:00,Indian,karthik.chinni@saal.ai,Muhammad Tahir Khan
+,465,Active,SAAL Operating System,Kawtar El Hamoumi,Onsite Support Analyst,Military Practice,Female,2024-05-13 00:00:00,Moroccan,kawthar@saal.ai,Saed Alhusan
+,404,Active,SAAL Operating System,Khaled Aldhaheri,Director - Defense Practice,Military Practice,Male,2023-06-05 00:00:00,Emirati,khaled@saal.ai,Vikraman Padinharekkara
+,615,Active,SAAL Operating System,Khaled Elshimy,Web Game Developer,Military Practice,Male,2026-03-17 00:00:00,Egyptian,khaled.shemy@saal.ai,Awad Allahawyah
+,249,Active,SAAL Operating System,Kiran Varma,Senior Data Scientist,Data Science,Male,2018-07-08 00:00:00,Indian,kiran.kumar@saal.ai,Muhammad Tahir Khan
+,205,Active,SAAL Operating System,Manjula Parakkal,Program Manager,Business Solutions & Projects,Female,2021-08-01 00:00:00,Indian,manjula@saal.ai,Syam Mohan
+,206,Active,SAAL Operating System,Manoj Bhagat,Lead Full Stack Engineer,Engineering,Male,2018-12-23 00:00:00,Indian,manoj@saal.ai,Sankar Ragothaman
+,171,Active,SAAL Operating System,Maria Coronel,Office Services Supervisor,Operations,Female,2018-07-22 00:00:00,Filipino,maria@saal.ai,Sohail Khan
+,345,Active,SAAL Operating System,Maria Paula De Asis,HR Business Partner,Operations,Female,2022-06-20 00:00:00,Filipino,paula@saal.ai,Shaun Tarr
+,209,Active,SAAL Operating System,Maricar Canete,Administrative Assistant,Operations,Female,2015-12-20 00:00:00,Filipino,maricar@saal.ai,Maria Coronel
+,211,Active,SAAL Operating System,Marivic Omalay,Office Support Assistant,Operations,Female,2019-04-21 00:00:00,Filipino,marivic@saal.ai,Maria Coronel
+,365,Active,SAAL Operating System,Meraj Ahmed,Data Science Analyst,Data Science,Male,2022-09-19 00:00:00,Indian,meraj@saal.ai,Muhammad Tahir Khan
+,432,Active,SAAL Operating System,Merhawi Gebremikael,Data Engineer,Engineering,Male,2023-11-01 00:00:00,Eritrea,merhawi@saal.ai,Midhun Pottammal
+,354,Active,SAAL Operating System,Mohamed Abdalla,Translator,Operations,Male,2022-08-08 00:00:00,Egyptian,mohamed.abdalla@saal.ai,Zakarya Belbaraka
+,416,Active,SAAL Operating System,Mohamed Muzammil Sahib,Technical Architect,Business Solutions & Projects,Male,2023-09-04 00:00:00,Indian,mohamed.muzammil@saal.ai,Syam Mohan
+,558,Active,SAAL Operating System,Mohamed Saif Alketbi,Graduate Trainee - Data Science,Data Science,Male,2025-04-07 00:00:00,Emirati,mohamed.saif@saal.ai,Muhammad Tahir Khan
+,388,Active,SAAL Operating System,Mohammed Aamish,Business Analyst,Business Solutions & Projects,Male,2022-12-19 00:00:00,Indian,aamish@saal.ai,Aswathy Karthikeyan
+,143,Active,SAAL Operating System,Muhammad Tahir Khan,Head of AI & Data Science,Data Science,Male,2017-05-31 00:00:00,Pakistani,tahir@saal.ai,Vikraman Padinharekkara
+,415,Active,SAAL Operating System,Muneer Marakkarakath,IT Support Engineer,Military Practice,Male,2023-08-21 00:00:00,Indian,muneer@saal.ai,Shabil Mara Padiyathu
+,471,Active,SAAL Operating System,Naji Al Zaabi,Account Manager,Military Practice,Male,2024-06-10 00:00:00,Emirati,naji@saal.ai,Khaled Aldhaheri
+,376,Active,SAAL Operating System,Najma Kunju,Backend Python Developer,Engineering,Female,2022-12-07 00:00:00,Indian,najma@saal.ai,Suhas Saheer
+,141,Active,SAAL Operating System,Nasser Albahri,Head of Government Relations for AI and Digital Transformation,Key Accounts,Male,2019-08-18 00:00:00,Emirati,nasser@saal.ai,Vikraman Padinharekkara
+,239,Active,SAAL Operating System,Nizar Bhaseer,Lead Full Stack Engineer,Engineering,Male,2018-08-05 00:00:00,Indian,nizar@saal.ai,Rahul Dev Renadev
+,177,Active,SAAL Operating System,Noorul Razvi Abubacker,Head of Engineering,Engineering,Male,2017-05-08 00:00:00,Indian,noorulrazvi@saal.ai,Sankar Ragothaman
+,243,Active,SAAL Operating System,Oleg Simanov,Senior DevOps Engineer,Engineering,Male,2017-09-10 00:00:00,Russian,simanov@saal.ai,Vipulabh Gupta
+,285,Active,SAAL Operating System,Parthasarathi Moorthy,DevOps Engineer,Engineering,Male,2022-03-14 00:00:00,Indian,parthasarathi@saal.ai,Vipulabh Gupta
+,557,Active,SAAL Operating System,Passant Ahmed,Business Development Manager,Military Practice,Female,2025-04-14 00:00:00,Egyptian,passant@saal.ai,Khaled Aldhaheri
+,248,Active,SAAL Operating System,Pranav Kumar,QA Engineer,Engineering,Male,2019-01-27 00:00:00,Indian,pranav@saal.ai,Satya Prakash Solanki
+,178,Active,SAAL Operating System,Rahul Dev Renadev,Senior Manager Technical Solution Delivery,Business Solutions & Projects,Male,2017-07-02 00:00:00,Indian,rahul@saal.ai,Syam Mohan
+,398,Active,SAAL Operating System,Raja Emani,Data Scientist,Data Science,Male,2023-03-27 00:00:00,Indian,raja@saal.ai,Muhammad Tahir Khan
+,181,Active,SAAL Operating System,Ravi Kharbanda,Senior Specialist - Front-End,Engineering,Male,2019-03-10 00:00:00,Indian,ravi@saal.ai,Sankar Ragothaman
+,455,Active,SAAL Operating System,Rawdha Almansoor,Educational Video Designer,Military Practice,Female,2024-03-04 00:00:00,Emirati,rawdha@saal.ai,Awad Allahawyah
+,308,Active,SAAL Operating System,Ruchin Khare,QA Engineer,Engineering,Male,2022-03-28 00:00:00,Indian,ruchin@saal.ai,Satya Prakash Solanki
+,184,Active,SAAL Operating System,Sabir Perumannil,IT Systems Manager,Operations,Male,2015-03-01 00:00:00,Indian,sabir@saal.ai,Sohail Khan
+,256,Active,SAAL Operating System,Saed Alhusan,Team Lead - Onsite Support,Military Practice,Male,2021-02-25 00:00:00,Jordanian,saed@saal.ai,Khaled Aldhaheri
+,540,Active,SAAL Operating System,Salik Imtiaz,Junior Frontend Developer,Engineering,Male,2025-01-22 00:00:00,Pakistani,salik@saal.ai,Ravi Kharbanda
+,189,Active,SAAL Operating System,Sankar Ragothaman,Director of Architecture and Innovation,Engineering,Male,2017-05-01 00:00:00,Indian,sankar@saal.ai,Vikraman Padinharekkara
+,258,Active,SAAL Operating System,Satya Prakash Solanki,Technical Architect,Engineering,Male,2018-03-04 00:00:00,Indian,satyaprakash@saal.ai,Sankar Ragothaman
+,276,Active,SAAL Operating System,Sayed Muqsit,Project Analyst,Product & Design,Male,2022-01-27 00:00:00,Indian,sayed@saal.ai,Aswathy Karthikeyan
+,260,Active,SAAL Operating System,Shabil Mara Padiyathu,IT Engineer,Military Practice,Male,2018-12-30 00:00:00,Indian,shabil@saal.ai,Khaled Aldhaheri
+,435,Active,SAAL Operating System,Shama Aldhaheri,Business Support Analyst,"Business Development, Marketing and Sales",Female,2023-11-01 00:00:00,Emirati,shama.aldhaheri@saal.ai,Wessam Abu Orabi
+,529,Active,SAAL Operating System,Siddharth Ravikumar,Speech Recognition Specialist,Artificial Intelligence,Male,2025-01-06 00:00:00,Indian,siddharth@saal.ai,Abrar Abdul Nabi
+,231,Active,SAAL Operating System,Smitha Sripada,Project Manager,Business Solutions & Projects,Female,2021-07-04 00:00:00,Indian,smitha@saal.ai,Syam Mohan
+,145,Active,SAAL Operating System,Sohail Khan,Chief Operating Officer,Operations,Male,2019-02-24 00:00:00,British,sohail@saal.ai,Vikraman Padinharekkara
+,142,Active,SAAL Operating System,Sravankumar Ayila,Senior Manager Technical Solution Delivery,Business Solutions & Projects,Male,2017-08-20 00:00:00,Indian,sravankumar@saal.ai,Syam Mohan
+,227,Active,SAAL Operating System,Suhas Saheer,Senior Technical Architect,Engineering,Male,2021-09-12 00:00:00,Indian,suhas@saal.ai,Noorul Razvi Abubacker
+,461,Active,SAAL Operating System,Swapnil Shukla,Full Stack Engineer,Engineering,Male,2024-04-29 00:00:00,Indian,swapnil@saal.ai,Rahul Dev Renadev
+,219,Active,SAAL Operating System,Syam Mohan,Director of Business Solutions & Customer Success,Business Solutions & Projects,Male,2019-02-17 00:00:00,Indian,syam@saal.ai,Vikraman Padinharekkara
+,439,Active,SAAL Operating System,Uday Yadav,Senior DevOps Engineer,Engineering,Male,2023-12-25 00:00:00,Indian,uday@saal.ai,Vipulabh Gupta
+,190,Active,SAAL Operating System,Vardhman Golchha,Senior Quality Assurance Engineer,Engineering,Male,2021-01-12 00:00:00,Indian,vardhman@saal.ai,Satya Prakash Solanki
+,185,Active,SAAL Operating System,Vidhun Thayyil,Lead Full Stack Engineer,Engineering,Male,2019-07-28 00:00:00,Indian,vidhun@saal.ai,Rahul Dev Renadev
+,138,Active,SAAL Operating System,Vikraman Padinharekkara,Chief Executive Officer,CEO Office,Male,2017-05-01 00:00:00,Indian,vikram@saal.ai,Dr. Saeed AlGhfeli
+,179,Active,SAAL Operating System,Vipulabh Gupta,Senior Platform Architect,Engineering,Male,2018-09-02 00:00:00,Indian,vipulabh@saal.ai,Sankar Ragothaman
+,422,Active,SAAL Operating System,Wessam Abu Orabi,Senior Regional Business Development Manager,"Business Development, Marketing and Sales",Male,2023-10-02 00:00:00,Saint Kitts and Nevis,wessam.abuorabi@saal.ai,Arun Arikath
+,163,Active,SAAL Operating System,Yash Sharma,Senior Fullstack Developer,Engineering,Male,2018-11-25 00:00:00,Indian,yash@saal.ai,Sankar Ragothaman
+,148,Active,SAAL Operating System,Zakarya Belbaraka,Contract Manager,Operations,Male,2018-07-01 00:00:00,Moroccan,zakarya@saal.ai,Sohail Khan
+,419,Active,SAAL Operating System,Zulfiqar Soomro,Technical Architect,Business Solutions & Projects,Male,2023-09-04 00:00:00,Pakistani,zulfiqar@saal.ai,Syam Mohan
+,623,Active,SAAL Operating System,Mohamed Naser Alwahedi,Onsite Support Analyst,Military Practice,Male,2026-04-27 00:00:00,Emirati,mohamed.alwahedi@saal.ai,Saed Alhusan
+,625,Active,SAAL Operating System,Vinci Mojamdar,Sr. Quantitative Researcher,AI Trading,Male,2026-05-21 00:00:00,Indian,vinci@saal.ai,Harihar Naik
+,627,Active,SAAL Operating System,Bhargav Ancha,Big Data Engineer,Business Solutions & Projects,Male,2026-06-05 00:00:00,Indian,bhargav@saal.ai,Syam Mohan
+,629,Active,SAAL Operating System,Ali Al Ghailani,IT Support Engineer,Military Practice,Male,2026-06-25 00:00:00,Emirati,ali@saal.ai,Shabil Mara Padiyathu
+,430,Active,SAAL Operating System,Deepanshu Chauhan,Finance Manager,Operations,Male,2023-11-01 00:00:00,Indian,deepanshu@saal.ai,Sohail Khan
+,570,Active,SAAL Operating System,Mohammad Shahazin,Accountant,Operations,Male,2025-05-01 00:00:00,Indian,mohammad.shahazin@saal.ai,Deepanshu Chauhan
+,630,Active,SAAL Operating System,Mohamed Nasr,Senior Machine Learning Engineer,Artificial Intelligence,Male,2026-07-03 00:00:00,Sudanese,mohamed.nasr@saal.ai,Abrar Abdul Nabi
+,632,Active,SAAL Operating System,Saif Alameri,Onsite Support Analyst,Military Practice,Male,2026-07-24 00:00:00,Emirati,Saif@saal.ai,Saed Alhusan
+,595,On Notice,SAAL Operating System,Juwairiyah Zia,Project Manager,Business Solutions & Projects,Female,2025-07-01 00:00:00,Indian,juwairiyah@saal.ai,Syam Mohan
+,538,On Notice,SAAL Operating System,Krishna Sukumaran,Data Scientist,Data Science,Male,2025-01-13 00:00:00,Indian,krishna@saal.ai,Muhammad Tahir Khan
+,199,On Notice,SAAL Operating System,Mahesh Kezhukkootte,DevOps Engineer,Engineering,Male,2019-06-09 00:00:00,Indian,mahesh@saal.ai,Vipulabh Gupta

@@ -1,0 +1,15 @@
+# Do not ignore employee_data/flows, teamdeck_demo/flows, or
+# saal-data-model/flows — those directories hold the DAGs.
+# Spark jobs, dbt internals, and tests are not Airflow DAGs.
+(^|/)saal-data-model/models/
+(^|/)saal-data-model/macros/
+(^|/)saal-data-model/target/
+(^|/)saal-data-model/dbt_packages/
+(^|/)saal-data-model/docs/
+(^|/)saal-data-model/python_tests/
+(^|/)employee_report/
+(^|/)employee_data/dependencies/
+(^|/)employee_data/tests/
+(^|/)employee_data/config/
+(^|/)teamdeck_demo/dependencies/
+(^|/)teamdeck_demo/json_util\.py$

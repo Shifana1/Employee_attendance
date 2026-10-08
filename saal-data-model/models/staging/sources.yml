@@ -1,0 +1,105 @@
+version: 2
+
+sources:
+  - name: employee_attendance
+    description: >
+      Employee data from the attendance/HR system.
+      Contains HR master records, raw attendance events, and daily
+      attendance summaries.
+    # Spark employee_data / HR / leave / onsite write Iceberg here.
+    # The attendance report table is still dataproducts.employee.
+    database: raw
+    schema: employee
+    tables:
+      - name: employee_hr_data
+        description: >
+          Current HR export. Employee ID is the real emp id. Full Name,
+          Email, Department, Designation, Business Unit, Status, and
+          Direct Manager are mapped to employee_name, business_email,
+          department, job_role, company, current_status, and line_manager.
+        columns:
+          - name: employee_id
+          - name: employee_name
+          - name: business_email
+          - name: department
+          - name: job_role
+          - name: company
+          - name: line_manager
+          - name: joining_date
+          - name: current_status
+          - name: gender
+          - name: nationality
+
+      - name: employee_attendance_metrics
+        description: >
+          Raw punch events from attendance terminals. Each row is a single
+          punch (check-in or check-out) with timestamp, GPS, terminal info,
+          and biometric verification details.
+        columns:
+          - name: id
+          - name: emp
+          - name: emp_code
+          - name: first_name
+          - name: last_name
+          - name: department
+          - name: position
+          - name: punch_time
+          - name: punch_state
+          - name: punch_state_display
+          - name: verify_type
+          - name: verify_type_display
+          - name: work_code
+          - name: gps_location
+          - name: area_alias
+          - name: terminal_sn
+          - name: temperature
+          - name: is_mask
+          - name: terminal_alias
+          - name: upload_time
+
+      - name: leave_data
+        description: >
+          Leave application report ingested from Excel. Date ranges of approved
+          and pending leave keyed by employee_id and email_id.
+        columns:
+          - name: employee_id
+          - name: employee_name
+          - name: department
+          - name: email_id
+          - name: leave_from_date
+          - name: leave_to_date
+          - name: working_days_hours
+          - name: duration_unit
+          - name: leave_type
+          - name: status
+
+      - name: onsite_employee
+        description: >
+          ZKTeco onsite daily attendance export. emp_no is not a real employee
+          id and is ignored downstream. Raw values are stored as landed from
+          Excel (EmailN → email). employee_id is not written here; staging
+          matches HR on email. Join on email; use name, date, clock_in, and
+          clock_out.
+        columns:
+          - name: name
+          - name: date
+          - name: clock_in
+          - name: clock_out
+          - name: email
+
+      - name: onsite_employee_history
+        description: >
+          Spark month history of onsite_employee. dbt stg_onsite_employee_history
+          transforms the reporting year-month then incremental-appends.
+
+      - name: leave_data_history
+        description: >
+          Spark month history of leave_data. dbt stg_leave_data_history
+          transforms the reporting year-month then incremental-appends.
+
+      - name: employee_attendance_metrics_history
+        description: >
+          Spark month history of employee_attendance_metrics. dbt
+          stg_attendance_event_history transforms the reporting year-month
+          then incremental-appends.
+

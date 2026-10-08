@@ -1,0 +1,38 @@
+{
+  "airflow-task-details": {
+    "leave-data": {
+      "spark_details": {
+        "spark_kubernetes_args": {
+          "kubernetes_spark_postfix": "",
+          "pyspark_job_main_file_s3_path": "s3a://workflows/employee_data/dependencies/scripts/leave_data.py",
+          "driver_cores": 1,
+          "driver_memory": "1g",
+          "executor_instances": 1,
+          "executor_cores": 1,
+          "executor_memory": "1g",
+          "spark_dependencies_libraries": "/workflows/sys/libs/postgresql-42.7.3.jar"
+        },
+          "spark_job_args": {
+            "excel_s3_path": "s3a://lakehouse/saal_employee/leave_employee/",
+            "output_warehouse_fq_table": "raw.employee.leave_data",
+            "output_warehouse_fq_history_table": "raw.employee.leave_data_history",
+            "output_wh_table_load_strategy": "overwrite"
+          }
+      }
+    }
+  },
+  "airflow-task-dependencies-details": {
+      "leave-data": [
+        "start",
+        "end"
+      ]
+    },
+    "airflow-dag-details": {
+      "dag_id": "leave_data",
+      "dag_description": "Load previous-month leave Excel from lakehouse/saal_employee/leave_employee/YYYY/month/",
+      "catalog": "raw",
+      "schedule_interval": "",
+      "tags": ["employee"]
+    }
+
+}

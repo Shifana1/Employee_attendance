@@ -1,0 +1,20 @@
+# dbt project files — not Airflow DAGs
+# Patterns are regular expressions (not globs).
+(^|/)models/
+(^|/)macros/
+(^|/)analyses/
+(^|/)seeds/
+(^|/)snapshots/
+(^|/)tests/
+(^|/)python_tests/
+(^|/)target/
+(^|/)logs/
+(^|/)dbt_packages/
+(^|/)docs/
+(^|/)__pycache__/
+(^|/)packages\.yml$
+(^|/)profiles\.yml$
+(^|/)dbt_project\.yml$
+(^|/)config_example\.json$
+\.md$
+\.sql$

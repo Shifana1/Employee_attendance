@@ -1,0 +1,259 @@
+version: 2
+
+models:
+  - name: employee_attendance
+    description: >
+      Iceberg table dataproducts.employee.employee_attendance.
+      Previous-month copy of employee_attendance_report. Replaces the
+      leftover Spark table of the same name.
+  - name: employee_attendance_report
+    description: >
+      Iceberg table dataproducts.employee.employee_attendance_report.
+      Schema and table are created if missing. One row per
+      coalesce(BusinessEmail, EmployeeID) + Date. Office days without an email
+      match are kept with null BusinessEmail. Office and onsite punches on the
+      same day are combined into a single row (earliest in, latest out). Leave
+      days keep punch times when present; location is Leave only when there
+      are no punches. Punch times and office hours are formatted as HH:mm.
+      When first and last punch are the same time and that time is before
+      12:00, LastPunchOut is null. Restricted to the previous calendar
+      month. Rows are ordered by Date ascending. Date is YYYY-MM-DD
+      with no timestamp.
+    columns:
+      - name: EmployeeID
+        description: >
+          HR Employee ID when matched via iClock last_name, punch emp_code,
+          or SAAL email; else office last_name (emp_id) or punch emp_code.
+          Onsite emp_no is never used.
+      - name: EmployeeName
+        description: >
+          HR Full Name when matched, else iClock first_name. The numeric
+          iClock last_name (emp id) is not part of the name.
+      - name: BusinessEmail
+        description: >
+          SAAL email when resolved from HR. Null for office
+          days with no identity match. Grain with Date is
+          coalesce(BusinessEmail, EmployeeID).
+      - name: Date
+        description: Calendar date as YYYY-MM-DD with no time component.
+        tests:
+          - not_null
+      - name: FirstPunchIn
+        description: >
+          Earliest office or onsite punch time of the day as HH:mm.
+          Shown even on leave days when a punch exists. NULL when there is no punch.
+      - name: LastPunchOut
+        description: >
+          Latest office or onsite punch time of the day as HH:mm.
+          Shown even on leave days when a punch exists. NULL when there is no
+          punch, or when first and last punch are the same time before 12:00.
+      - name: TotalHoursInOffice
+        description: >
+          Duration between first punch and last punch as HH:mm.
+          NULL when either punch is missing, including a single punch before
+          12:00 (LastPunchOut is null).
+      - name: SaalOfficeOrOnsite
+        description: >
+          Location — Saal Office, Onsite, Saal Office / Onsite (both sources
+          that day), or Leave (leave with no punches).
+        tests:
+          - accepted_values:
+              values: ['Saal Office', 'Onsite', 'Saal Office / Onsite', 'Leave']
+      - name: IsLeave
+        description: >
+          Yes when an approved or pending leave range covers this date,
+          including days that also have office or onsite punches.
+        tests:
+          - accepted_values:
+              values: ['Yes', 'No']
+
+  - name: employee_attendance_status
+    description: >
+      Iceberg table dataproducts.employee.employee_attendance_status.
+      Same grain as employee_attendance_report: one row per
+      coalesce(BusinessEmail, EmployeeID) + Date. Restricted to the
+      previous calendar month.
+      AttendanceStatus merges leave data with punch-inferred half days.
+      Authorized leave uses Leave or HalfDay 1st/2nd half. Half day from
+      punches only (first after 13:00 or last before 13:00, no leave row)
+      is Unauthorized half-day leave. When FirstPunch equals LastPunch
+      (HH:mm) or there is only one punch, LastPunch is null and
+      PunchStatus is Punch incomplete. TotalHoursInOffice is HH:mm.
+    columns:
+      - name: EmployeeID
+        description: Same identity as employee_attendance_report.
+      - name: EmployeeName
+        description: Same name resolution as employee_attendance_report.
+      - name: BusinessEmail
+        description: >
+          SAAL email when resolved. Grain with Date is
+          coalesce(BusinessEmail, EmployeeID).
+      - name: Date
+        description: Calendar date as YYYY-MM-DD with no time component.
+        tests:
+          - not_null
+      - name: Department
+        description: HR department when matched, else iClock punch department.
+      - name: FirstPunch
+        description: >
+          Earliest office or onsite punch time of the day as HH:mm.
+          Shown even on leave days. NULL when there is no punch. A single
+          punch for the day is stored here only.
+      - name: LastPunch
+        description: >
+          Latest office or onsite punch time of the day as HH:mm.
+          NULL when there is no punch, only one punch, or the last punch
+          is the same HH:mm as FirstPunch.
+      - name: TotalHoursInOffice
+        description: >
+          Duration between first punch and last punch as HH:mm. NULL when
+          last punch is missing, including a single punch or same-time day.
+      - name: PunchCount
+        description: >
+          Office iClock event count plus onsite clock-in/out count.
+          Zero when the day has no punches.
+        tests:
+          - not_null
+      - name: PunchStatus
+        description: >
+          Punch incomplete when FirstPunch is set and LastPunch is null
+          (one punch or the same HH:mm). Punch complete when both times
+          are present and differ. No punch when there is no FirstPunch.
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Punch incomplete
+                - Punch complete
+                - No punch
+      - name: AttendanceStatus
+        description: >
+          Merged leave and punch status. Leave is full-day leave from leave
+          data. HalfDay 1st half is authorized 0.5-day leave with first
+          punch after 13:00 (default when half-day leave has no matching
+          punch pattern). HalfDay 2nd half is authorized 0.5-day leave with
+          last punch before 13:00. Unauthorized half-day leave is first
+          punch after 13:00 or last punch before 13:00 with no leave row.
+          Present otherwise.
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Present
+                - Leave
+                - HalfDay - 1st half leave
+                - HalfDay - 2nd half leave
+                - Unauthorized half-day leave
+
+  - name: employee_hr_attendance_status
+    description: >
+      Iceberg table dataproducts.employee.employee_hr_attendance_status.
+      One row per employee_id + weekday Date for the previous calendar
+      month. Includes people who are not in HR. Saturday and Sunday
+      are excluded. Left-joins punch and leave facts from int_attendance_day.
+      Weekdays with no punch and no leave are Missing punch and Unauthorized
+      leave. Uses the same punch and half-day classification rules as
+      employee_attendance_status.
+    columns:
+      - name: EmployeeID
+        description: HR Employee ID when known; otherwise punch or leave identity. Never an email.
+        tests:
+          - not_null
+      - name: EmployeeName
+        description: HR Full Name from stg_employee_hr.
+      - name: BusinessEmail
+        description: SAAL business email from stg_employee_hr.
+      - name: Date
+        description: >
+          Weekday calendar date as YYYY-MM-DD within the configured month.
+          Excludes Saturday and Sunday.
+        tests:
+          - not_null
+      - name: Department
+        description: HR department from stg_employee_hr.
+      - name: FirstPunch
+        description: >
+          Earliest office or onsite punch time of the day as HH:mm.
+          NULL when there is no punch.
+      - name: LastPunch
+        description: >
+          Latest office or onsite punch time of the day as HH:mm.
+          NULL when there is no punch, only one punch, or the last punch
+          is the same HH:mm as FirstPunch.
+      - name: TotalHoursInOffice
+        description: >
+          Duration between first punch and last punch as HH:mm. NULL when
+          last punch is missing.
+      - name: PunchCount
+        description: >
+          Office iClock event count plus onsite clock-in/out count.
+          Zero when the day has no punches.
+        tests:
+          - not_null
+      - name: PunchStatus
+        description: >
+          Missing punch when there is no punch and no leave on a weekday.
+          Punch incomplete when FirstPunch is set and LastPunch is null.
+          Punch complete when both times are present and differ.
+          No punch when on leave with no FirstPunch.
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Punch incomplete
+                - Punch complete
+                - No punch
+                - Missing punch
+      - name: AttendanceStatus
+        description: >
+          Unauthorized leave when there is no punch and no leave on a weekday.
+          Otherwise same leave, half-day, and present rules as
+          employee_attendance_status.
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Present
+                - Leave
+                - HalfDay - 1st half leave
+                - HalfDay - 2nd half leave
+                - Unauthorized half-day leave
+                - Unauthorized leave
+
+  - name: employee_departments
+    description: >
+      Iceberg table dataproducts.employee.employee_departments.
+      One row per distinct HR department, with department head and
+      employee count from stg_employee_hr.
+    columns:
+      - name: department
+        description: HR department name.
+        tests:
+          - not_null
+          - unique
+      - name: department_head
+        description: Department head from HR when present.
+      - name: employee_count
+        description: Distinct HR employee_id count in this department.
+
+  - name: employee_attendance_report_history
+    description: >
+      Same report transform as employee_attendance_report from
+      int_attendance_day_history. Incremental delete then append for the
+      reporting year-month. Not a snapshot of the overwritten current report.
+  - name: employee_attendance_history
+    description: >
+      Same columns as employee_attendance from employee_attendance_report_history.
+      Incremental delete then append for the reporting year-month.
+  - name: employee_attendance_status_history
+    description: >
+      Same status transform as employee_attendance_status from
+      int_attendance_day_history. Incremental delete then append.
+  - name: employee_hr_attendance_status_history
+    description: >
+      Same weekday roster transform as employee_hr_attendance_status from
+      int_attendance_day_history. Incremental delete then append.
+  - name: employee_departments_history
+    description: >
+      Monthly snapshot of current employee_departments (no Spark HR history).
+      Incremental delete then append for the reporting year-month.

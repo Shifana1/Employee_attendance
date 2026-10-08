@@ -1,0 +1,5 @@
+# Scheduler should only parse DAG modules under flows/. Spark jobs are not DAGs.
+(^|/)dependencies/
+(^|/)tests/
+(^|/)config/
+iclock_extract.py

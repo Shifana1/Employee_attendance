@@ -1,0 +1,116 @@
+version: 2
+
+models:
+  - name: stg_employee_hr
+    description: >
+      Staged HR master data. Cleanses string-literal "null" values to actual NULLs,
+      parses date varchars (format "9-Jun-19") to DATE, normalizes email to lowercase.
+      One row per employee. Employee ID is the real emp id.
+    columns:
+      - name: employee_id
+        description: HR Employee ID. Join iClock last_name, then punch emp_code, to this key.
+      - name: business_email_normalized
+        description: Lowercase, trimmed business email from the HR Email column.
+      - name: employee_name
+        description: Full Name from HR.
+      - name: department
+        description: HR Department from the current export.
+  - name: stg_attendance_event
+    description: >
+      Staged raw punch events. 112K events across 392 employees.
+      WARNING: 89% of punch_direction is "Unknown". Prefer stg_daily_attendance
+      for daily attendance analysis.
+    columns:
+      - name: event_id
+        description: Unique event identifier.
+      - name: emp_code
+        description: Employee code from the punch event.
+  - name: stg_daily_attendance
+    description: >
+      Daily first and last office punch from stg_attendance_event.
+      Grain is emp_code + punch_date. min(punch_timestamp) is check-in,
+      max(punch_timestamp) is last punch. SAAL email is resolved later
+      in int_attendance_day from HR. Office days without a matching email
+      are still kept in int_attendance_day. iClock last_name is the HR
+      emp_id. department is from the punch event.
+    columns:
+      - name: emp_code
+        description: Punch-device employee code. Join key to HR emp_code or employee_id.
+      - name: last_name
+        description: iClock last_name; this is the HR emp_id, not a surname.
+      - name: department
+        description: Department from employee_attendance_metrics punch rows.
+      - name: business_email
+        description: Unused at this layer; int_attendance_day fills SAAL email from HR when available.
+      - name: email_normalized
+        description: Unused at this layer; int_attendance_day fills SAAL email from HR when available.
+      - name: checkin_timestamp
+        description: Earliest punch timestamp of the day.
+      - name: checkout_timestamp
+        description: Latest punch timestamp of the day. Equals check-in when there is one punch.
+      - name: office_punch_count
+        description: Count of iClock punch events for this emp_code and date.
+  - name: stg_leave_data
+    description: >
+      Staged leave application rows. Keeps employee id, email, leave dates,
+      type, status, and duration. Restricted to Approved and Pending. Date
+      strings are parsed to DATE. Half-day is duration 0.5 when the unit is
+      days or blank.
+    columns:
+      - name: employee_id
+        description: Employee id from the leave report. Join key with email.
+      - name: email_normalized
+        description: Lowercase trimmed leave email. Join key to HR.
+      - name: working_days_hours
+        description: Working Days/Hours from the leave report, trimmed.
+      - name: duration_unit
+        description: Duration unit from the leave report (for example Day(s)).
+      - name: working_days_num
+        description: working_days_hours parsed as a number.
+      - name: is_half_day
+        description: True when duration is 0.5 days (unit is days or blank).
+  - name: stg_onsite_employee
+    description: >
+      Staged onsite daily attendance. Name, email, date, first_punch_in
+      (clock_in), and last_punch_in (clock_out) are kept. emp_no is ignored.
+      employee_id is the HR id matched on exact email when present.
+      Weekend EmailN blanks are filled from the same person.
+      Truncated EmailN is rematched in intermediate. Rows without an HR
+      match are still kept.
+    columns:
+      - name: employee_id
+        description: HR employee_id matched on exact onsite email. Null when the person is not in HR or the email is truncated.
+      - name: email_normalized
+        description: Lowercase trimmed onsite or HR email. Join key to HR and office. Weekend blanks inherit the person's weekday email.
+      - name: attendance_date
+        description: Calendar date of the onsite attendance row.
+      - name: first_punch_in
+        description: >
+          Onsite clock_in as timestamp. Native Iceberg timestamps are cast
+          directly; varchar times such as 09:15 are combined with attendance_date.
+      - name: last_punch_in
+        description: >
+          Onsite clock_out as timestamp. Native Iceberg timestamps are cast
+          directly; varchar times such as 18:02 are combined with attendance_date.
+      - name: clock_in
+        description: Raw Iceberg clock_in, passed through for debugging.
+      - name: clock_out
+        description: Raw Iceberg clock_out, passed through for debugging.
+  - name: stg_onsite_employee_history
+    description: >
+      Same cleanses as stg_onsite_employee from raw.employee.onsite_employee_history
+      for the reporting year-month. Incremental delete then append. Not a snapshot
+      of the current staging view.
+  - name: stg_leave_data_history
+    description: >
+      Same cleanses as stg_leave_data from raw.employee.leave_data_history for
+      the reporting year-month. Incremental delete then append.
+  - name: stg_attendance_event_history
+    description: >
+      Same cleanses as stg_attendance_event from
+      raw.employee.employee_attendance_metrics_history for the reporting
+      year-month. Incremental delete then append.
+  - name: stg_daily_attendance_history
+    description: >
+      Same daily first/last punch as stg_daily_attendance from
+      stg_attendance_event_history. Incremental delete then append.

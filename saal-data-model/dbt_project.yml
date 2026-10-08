@@ -1,0 +1,61 @@
+name: 'saal_data_model'
+version: '1.0.0'
+
+require-dbt-version: [">=1.8.0", "<2.0.0"]
+
+config-version: 2
+
+# uncomment this when you want to run locally
+# profile: 'saal_trino'
+
+# uncomment this when you want to run with elementary on DigixT through Airflow
+profile: 'saal_data_model'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+models:
+  saal_data_model:
+    +database: dataproducts
+    +tags:
+      - "dbt"
+      - "saal"
+      - "saal_data_model"
+    staging:
+      +schema: employee_model
+      +materialized: view
+      +tags:
+        - "staging"
+    intermediate:
+      +schema: employee_model
+      +materialized: table
+      +on_table_exists: drop
+      +tags:
+        - "intermediate"
+    semantic:
+      +database: dataproducts
+      +schema: employee
+      +materialized: table
+      +on_table_exists: drop
+      +tags:
+        - "semantic"
+
+on-run-start:
+  - "{{ ensure_iceberg_schema('dataproducts', 'employee') }}"
+  - "{{ ensure_iceberg_schema('dataproducts', 'employee_model') }}"
+
+flags:
+  require_explicit_package_overrides_for_builtin_materializations: false
+
+# Leftover D365/Teamdeck staging still on some workers expects these flags.
+# Employee attendance does not use those sources; keep them off.
+vars:
+  enable_d365_sources: false
+  enable_teamdeck_sources: false

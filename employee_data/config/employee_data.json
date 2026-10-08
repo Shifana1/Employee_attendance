@@ -1,0 +1,38 @@
+{
+    "airflow-task-details": {
+      "employee-data": {
+        "spark_details": {
+          "spark_kubernetes_args": {
+            "kubernetes_spark_postfix": "",
+            "pyspark_job_main_file_s3_path": "s3a://workflows/employee_data/dependencies/scripts/employee_data.py",
+            "driver_cores": 1,
+            "driver_memory": "1g",
+            "executor_instances": 1,
+            "executor_cores": 1,
+            "executor_memory": "1g",
+            "spark_dependencies_libraries": "/workflows/sys/libs/postgresql-42.7.3.jar"
+          },
+          "spark_job_args": {
+            "iclock_transactions_api": "http://192.168.145.32:8081/iclock/api/transactions/?page_size=300000",
+            "iclock_chunk_days": 7,
+            "output_warehouse_fq_table": "raw.employee.employee_attendance_metrics",
+            "output_warehouse_fq_history_table": "raw.employee.employee_attendance_metrics_history"
+          }
+        }
+      }
+    },
+    "airflow-task-dependencies-details": {
+        "employee-data": [
+          "start",
+          "end"
+        ]
+      },
+      "airflow-dag-details": {
+        "dag_id": "employee_data",
+        "dag_description": "Fetch previous-month iClock punches into raw.employee.employee_attendance_metrics; run saal_model next to refresh dataproducts.employee.employee_attendance",
+        "catalog": "raw",
+        "schedule_interval": "",
+        "tags": ["employee"]
+      }
+  
+  }

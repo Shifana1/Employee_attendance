@@ -1,0 +1,38 @@
+{
+  "airflow-task-details": {
+    "onsite-employee": {
+      "spark_details": {
+        "spark_kubernetes_args": {
+          "kubernetes_spark_postfix": "",
+          "pyspark_job_main_file_s3_path": "s3a://workflows/employee_data/dependencies/scripts/onsite_employee.py",
+          "driver_cores": 1,
+          "driver_memory": "1g",
+          "executor_instances": 1,
+          "executor_cores": 1,
+          "executor_memory": "1g",
+          "spark_dependencies_libraries": "/workflows/sys/libs/postgresql-42.7.3.jar"
+        },
+          "spark_job_args": {
+            "excel_s3_path": "s3a://lakehouse/saal_employee/onsite_employee/",
+            "output_warehouse_fq_table": "raw.employee.onsite_employee",
+            "output_warehouse_fq_history_table": "raw.employee.onsite_employee_history",
+            "output_wh_table_load_strategy": "overwrite"
+          }
+      }
+    }
+  },
+  "airflow-task-dependencies-details": {
+      "onsite-employee": [
+        "start",
+        "end"
+      ]
+    },
+    "airflow-dag-details": {
+      "dag_id": "onsite_employee",
+      "dag_description": "Load previous-month onsite Excel from lakehouse/saal_employee/onsite_employee/YYYY/month/",
+      "catalog": "raw",
+      "schedule_interval": "",
+      "tags": ["employee"]
+    }
+
+}

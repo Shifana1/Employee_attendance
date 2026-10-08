@@ -1,0 +1,83 @@
+version: 2
+
+models:
+  - name: int_hr_roster
+    description: >
+      One HR person per employee_id. name_count is 1 when the full name is
+      unique. email_rn is 1 for the chosen row of that email.
+  - name: int_hr_by_prefix
+    description: >
+      Unique HR match for truncated source emails such as ahmed.hussein@saal.a.
+  - name: int_office_day
+    description: >
+      Office iClock attendance, one row per person_key + date. last_name is
+      the HR emp id; emp_code is the device/badge code.
+  - name: int_onsite_day
+    description: >
+      Onsite ZKTeco attendance, one row per person_key + date.
+  - name: int_leave_day
+    description: >
+      Leave calendar days, one row per person_key + date. is_half_day_leave
+      is true when duration is 0.5 days.
+  - name: int_attendance_day
+    description: >
+      Merged daily attendance identity. One row per person_key + date.
+      Person key is SAAL email when HR matches, else punch emp_id
+      (iClock last_name), emp_code, leave employee_id, or onsite name.
+      People who are not in HR are still kept. Every stg_daily_attendance
+      office day is kept (business_email may be null). Office and onsite
+      punches are combined; leave days retain punches when present. HR is
+      matched on last_name = employee_id, then emp_code = employee_id, then
+      unique full name, then truncated-email prefix, and overlaid again via
+      normalized email. EmployeeID is never an email.
+      Department prefers HR, then punch events. Punch count is office
+      iClock events plus onsite clock-in/out. is_half_day_leave is true
+      when an approved or pending leave covering the date has duration 0.5
+      days. Alias or truncated source emails are rematched to HR by unique
+      name or unique email prefix. EmployeeID is never an email.
+    columns:
+      - name: employee_id
+        description: HR Employee ID when matched by last_name, punch emp_code, email, unique name, or truncated-email prefix; else iClock last_name or punch emp_code. Never an email. Onsite emp_no is never used.
+      - name: employee_name
+        description: HR Full Name when matched, else iClock first_name. iClock last_name (emp id) is not used as a surname.
+      - name: business_email
+        description: SAAL email when resolved from HR. Null for office days with no identity match. Person key with attendance_date is coalesce(business_email, employee_id).
+      - name: department
+        description: HR Department when the person matches HR, else the iClock punch department.
+      - name: attendance_date
+        description: Calendar date of the attendance or leave day.
+      - name: punch_count
+        description: >
+          Office iClock event count plus onsite clock-in/out count for the
+          day. Zero on leave-only days with no punches.
+      - name: saal_office_or_onsite
+        description: Location label — Saal Office, Onsite, Saal Office / Onsite, or Leave.
+      - name: is_leave
+        description: Yes when approved or pending leave covers this date.
+      - name: is_half_day_leave
+        description: True when covering leave has duration 0.5 days.
+  - name: int_hr_roster_history
+    description: >
+      Incremental snapshot of current int_hr_roster for the reporting month
+      (no Spark HR history). Delete then append that year-month.
+  - name: int_hr_by_prefix_history
+    description: >
+      Same truncated-email HR match as int_hr_by_prefix from
+      stg_leave_data_history. Incremental delete then append.
+  - name: int_office_day_history
+    description: >
+      Same as int_office_day from stg_daily_attendance_history. Incremental
+      delete then append for the reporting year-month.
+  - name: int_onsite_day_history
+    description: >
+      Same as int_onsite_day from stg_onsite_employee_history. Incremental
+      delete then append for the reporting year-month.
+  - name: int_leave_day_history
+    description: >
+      Same as int_leave_day from stg_leave_data_history. Incremental delete
+      then append for the reporting year-month.
+  - name: int_attendance_day_history
+    description: >
+      Same office/onsite/leave merge as int_attendance_day from history
+      intermediates. Incremental delete then append. Query with
+      reporting_year and reporting_month.
