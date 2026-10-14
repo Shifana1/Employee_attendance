@@ -10,7 +10,7 @@
 }}
 
 /*
-    Same cleanses as stg_leave_data.sql from raw.employee.leave_data_history.
+    Same cleanses as stg_leave_data.sql from dataproducts.raw.leave_data_history.
     Incremental delete+append for the reporting year-month only.
 */
 

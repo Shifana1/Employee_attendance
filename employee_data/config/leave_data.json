@@ -14,8 +14,8 @@
         },
           "spark_job_args": {
             "excel_s3_path": "s3a://lakehouse/saal_employee/leave_employee/",
-            "output_warehouse_fq_table": "raw.employee.leave_data",
-            "output_warehouse_fq_history_table": "raw.employee.leave_data_history",
+            "output_warehouse_fq_table": "dataproducts.raw.leave_data",
+            "output_warehouse_fq_history_table": "dataproducts.raw.leave_data_history",
             "output_wh_table_load_strategy": "overwrite"
           }
       }
@@ -30,8 +30,8 @@
     "airflow-dag-details": {
       "dag_id": "leave_data",
       "dag_description": "Load previous-month leave Excel from lakehouse/saal_employee/leave_employee/YYYY/month/",
-      "catalog": "raw",
-      "schedule_interval": "",
+      "catalog": "dataproducts",
+      "schedule": "",
       "tags": ["employee"]
     }
 

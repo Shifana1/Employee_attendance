@@ -27,7 +27,7 @@
     "dag_id": "saal_model",
     "dag_description": "saal-data-model dbt via Trino on the Airflow worker",
     "catalog": "dataproducts",
-    "schedule_interval": "",
+    "schedule": "",
     "tags": ["saal", "dbt"]
   }
 }

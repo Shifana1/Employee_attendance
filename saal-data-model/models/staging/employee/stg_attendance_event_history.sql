@@ -11,7 +11,7 @@
 
 /*
     Same cleanses as stg_attendance_event.sql from
-    raw.employee.employee_attendance_metrics_history.
+    dataproducts.raw.employee_attendance_metrics_history.
 */
 
 with source as (

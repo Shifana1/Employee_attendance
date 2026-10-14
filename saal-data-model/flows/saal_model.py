@@ -326,27 +326,23 @@ def format_dbt_failure(
 
 
 try:
-    from airflow import DAG
+    from airflow.sdk import DAG
     from airflow.exceptions import AirflowException
-    from airflow.models import Variable
-    from airflow.operators.python import PythonOperator
+    from airflow.sdk import Variable
+    from airflow.providers.standard.operators.python import PythonOperator
+    from airflow.providers.standard.operators.empty import EmptyOperator
     from airflow.utils.task_group import TaskGroup
-
-    try:
-        from airflow.operators.dummy import DummyOperator
-    except ImportError:
-        from airflow.operators.empty import EmptyOperator as DummyOperator
 except ImportError:
     DAG = None
     AirflowException = RuntimeError
     Variable = None
     PythonOperator = None
     TaskGroup = None
-    DummyOperator = None
+    EmptyOperator = None
 
 _FALLBACK_PIPELINE = {
     "catalog": "dataproducts",
-    "schedule_interval": None,
+    "schedule": None,
     "tags": ["dbt", "saal", "employee"],
 }
 _DBT_COMMANDS = [
@@ -380,9 +376,9 @@ def _saal_model_pipeline_vars():
             pipeline_vars["catalog"] = entry["catalog"]
         if entry.get("tags"):
             pipeline_vars["tags"] = entry["tags"]
-        schedule_interval = entry.get("schedule_interval", "")
-        pipeline_vars["schedule_interval"] = (
-            None if schedule_interval in ("", None) else schedule_interval
+        schedule = entry.get("schedule", "")
+        pipeline_vars["schedule"] = (
+            None if schedule in ("", None) else schedule
         )
     except Exception as exc:
         print("WARNING: saal_model using pipeline fallback: %s" % exc)
@@ -413,11 +409,12 @@ def _trino_env_from_airflow(dbt_details):
         ("TRINO_DATABASE", "dataproducts"),
         ("TRINO_SCHEMA", "employee"),
     ):
-        try:
-            env_vars[key] = str(Variable.get(key))
-        except KeyError:
-            if default is not None:
-                env_vars[key] = default
+        # Airflow 3: a missing Variable raises AirflowRuntimeError, not KeyError.
+        value = Variable.get(key, default=None)
+        if value is not None:
+            env_vars[key] = str(value)
+        elif default is not None:
+            env_vars[key] = default
     if dbt_details.get("trino_database"):
         env_vars["TRINO_DATABASE"] = str(dbt_details["trino_database"])
     if dbt_details.get("trino_schema"):
@@ -629,14 +626,14 @@ if DAG is not None:
         dag_id="saal_model",
         default_args={"max_active_runs": 1},
         description="saal-data-model dbt via Trino; attendance grain is SAAL business email + date",
-        schedule_interval=_pipeline_vars["schedule_interval"],
+        schedule=_pipeline_vars["schedule"],
         start_date=datetime(2023, 5, 6),
         catchup=False,
         max_active_runs=1,
         tags=_pipeline_vars["tags"],
     ) as dag:
-        start = DummyOperator(task_id="start")
-        end = DummyOperator(task_id="end")
+        start = EmptyOperator(task_id="start")
+        end = EmptyOperator(task_id="end")
 
         with TaskGroup(group_id="saal-data-model-dbt") as dbt_group:
             previous = None

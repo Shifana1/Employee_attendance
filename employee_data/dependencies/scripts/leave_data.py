@@ -19,8 +19,8 @@ logger = logging.getLogger()
 # Upload workbooks to MinIO lakehouse by year/month, e.g.:
 #   mc cp "LeaveApplicationReport 1June to 31July_26.xlsx" lakehouse/saal_employee/leave_employee/2026/july/
 DEFAULT_LEAVE_EXCEL_PATH = "s3a://lakehouse/saal_employee/leave_employee/"
-DEFAULT_LEAVE_TABLE = "raw.employee.leave_data"
-DEFAULT_LEAVE_HISTORY_TABLE = "raw.employee.leave_data_history"
+DEFAULT_LEAVE_TABLE = "dataproducts.raw.leave_data"
+DEFAULT_LEAVE_HISTORY_TABLE = "dataproducts.raw.leave_data_history"
 REPORTING_YEAR_COL = "reporting_year"
 REPORTING_MONTH_COL = "reporting_month"
 _MONTH_FOLDER_NAMES = frozenset(

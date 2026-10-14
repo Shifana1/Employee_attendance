@@ -26,10 +26,10 @@ HR_CSV_PATH = (
 
 
 def test_iceberg_namespace_from_fully_qualified_table() -> None:
-    assert iceberg_namespace(DEFAULT_HR_TABLE) == "raw.employee"
-    assert iceberg_schema_location(DEFAULT_HR_TABLE) == "s3a://raw/employee"
+    assert iceberg_namespace(DEFAULT_HR_TABLE) == "dataproducts.raw"
+    assert iceberg_schema_location(DEFAULT_HR_TABLE) == "s3a://dataproducts/raw"
     assert iceberg_table_location(DEFAULT_HR_TABLE) == (
-        "s3a://raw/employee/employee_hr_data"
+        "s3a://dataproducts/raw/employee_hr_data"
     )
 
 
@@ -51,9 +51,9 @@ def test_create_table_sql_is_idempotent_iceberg_ddl() -> None:
     assert "`employee_id` string" in sql
     assert "`employee_name` string" in sql
     assert "USING iceberg" in sql
-    assert "LOCATION 's3a://raw/employee/employee_hr_data'" in sql
+    assert "LOCATION 's3a://dataproducts/raw/employee_hr_data'" in sql
     assert iceberg_create_namespace_sql(DEFAULT_HR_TABLE) == (
-        "CREATE NAMESPACE IF NOT EXISTS raw.employee LOCATION 's3a://raw/employee'"
+        "CREATE NAMESPACE IF NOT EXISTS dataproducts.raw LOCATION 's3a://dataproducts/raw'"
     )
 
 

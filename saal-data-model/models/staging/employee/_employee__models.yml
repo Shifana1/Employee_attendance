@@ -98,17 +98,17 @@ models:
         description: Raw Iceberg clock_out, passed through for debugging.
   - name: stg_onsite_employee_history
     description: >
-      Same cleanses as stg_onsite_employee from raw.employee.onsite_employee_history
+      Same cleanses as stg_onsite_employee from dataproducts.raw.onsite_employee_history
       for the reporting year-month. Incremental delete then append. Not a snapshot
       of the current staging view.
   - name: stg_leave_data_history
     description: >
-      Same cleanses as stg_leave_data from raw.employee.leave_data_history for
+      Same cleanses as stg_leave_data from dataproducts.raw.leave_data_history for
       the reporting year-month. Incremental delete then append.
   - name: stg_attendance_event_history
     description: >
       Same cleanses as stg_attendance_event from
-      raw.employee.employee_attendance_metrics_history for the reporting
+      dataproducts.raw.employee_attendance_metrics_history for the reporting
       year-month. Incremental delete then append.
   - name: stg_daily_attendance_history
     description: >

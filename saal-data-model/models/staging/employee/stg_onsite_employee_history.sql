@@ -11,7 +11,7 @@
 
 /*
     Same cleanses as stg_onsite_employee.sql from
-    raw.employee.onsite_employee_history. HR match uses current stg_employee_hr.
+    dataproducts.raw.onsite_employee_history. HR match uses current stg_employee_hr.
 */
 
 with source as (

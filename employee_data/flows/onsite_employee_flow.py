@@ -1,15 +1,15 @@
 from datetime import datetime
-from airflow import DAG
-from airflow.operators.dummy import DummyOperator
-from airflow.operators.trigger_dagrun import TriggerDagRunOperator
-from airflow.sensors.external_task import ExternalTaskSensor
+from airflow.sdk import DAG
+from airflow.providers.standard.operators.empty import EmptyOperator
+from airflow.providers.standard.operators.trigger_dagrun import TriggerDagRunOperator
+#from airflow.sensors.external_task import ExternalTaskSensor TEMP
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
-from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
+#from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor TEMP
 from airflow.utils.task_group import TaskGroup
 from botocore.client import Config
 
 from airflow.providers.trino.hooks.trino import TrinoHook
-from airflow.models import Variable
+from airflow.sdk import Variable
 
 import json
 import os
@@ -26,7 +26,7 @@ if _FLOWS_DIR not in sys.path:
     sys.path.insert(0, _FLOWS_DIR)
 from metastore_uris import resolve_metastore_uri, resolve_trino_connection_id
 from spark_period_env import apply_reporting_period_args, dump_spark_application, extend_pod_env
-from pipeline_chain import upstream_sensor_kwargs
+#from pipeline_chain import upstream_sensor_kwargs TEMP
 
 dag_default_args = Variable.get("AIRFLOW_DAG_DEFAULT_ARGS", deserialize_json=True)
 
@@ -97,8 +97,8 @@ class ReadAirflowVariables:
         dag_id = airflow_dag_details_from_config["dag_id"]
         fallback_pipeline_vars = {
             "catalog": airflow_dag_details_from_config.get("catalog", "raw"),
-            "schedule_interval": airflow_dag_details_from_config.get(
-                "schedule_interval", ""
+            "schedule": airflow_dag_details_from_config.get(
+                "schedule", ""
             ),
             "tags": airflow_dag_details_from_config.get("tags", ["employee"]),
         }
@@ -114,11 +114,11 @@ class ReadAirflowVariables:
             for key, value in fallback_pipeline_vars.items():
                 airflow_pipeline_vars.setdefault(key, value)
 
-        schedule_interval = airflow_pipeline_vars.get("schedule_interval", None)
-        if schedule_interval == "":
-            airflow_pipeline_vars["schedule_interval"] = None
+        schedule = airflow_pipeline_vars.get("schedule", None)
+        if schedule == "":
+            airflow_pipeline_vars["schedule"] = None
         else:
-            airflow_pipeline_vars["schedule_interval"] = schedule_interval
+            airflow_pipeline_vars["schedule"] = schedule
 
         start_date = "2023-05-06 00:00:00"
         if start_date == "" or start_date is None:
@@ -388,7 +388,7 @@ class BuildDagTaskGroup:
             if common_args_key not in spark_job_args.keys():
                 spark_job_args[common_args_key] = common_arguments[common_args_key]
 
-        kubernetes_spark_monitoring_task = "{{ task_instance.xcom_pull(task_ids='%s')['metadata']['name'] }}"
+        # kubernetes_spark_monitoring_task = "{{ task_instance.xcom_pull(task_ids='%s')['metadata']['name'] }}"  TEMP
 
         # Unique per attempt: leftover SparkApplication CRDs cause 409 AlreadyExists on retry.
         spark_app_name = "{}-{}-{}-{}".format(
@@ -412,22 +412,23 @@ class BuildDagTaskGroup:
                     job_arguments=["{}".format(task_group_key)]
                 )
             ),
-            do_xcom_push=True,
+            do_xcom_push=False,#TEMP(WAS TRUE)
             dag=dag,
         )
 
-        spark_monitor_job = SparkKubernetesSensor(
-            task_id="spark-monitor",
-            namespace=global_vars["k8s_namespace"],
-            kubernetes_conn_id=global_vars["k8s_connection_id"],
-            application_name=kubernetes_spark_monitoring_task
-            % "{}.spark-submit".format(task_group_key),
-            dag=dag,
-            attach_log=True
-        )
+        # TEMP: SparkKubernetesSensor removed - operator now waits for the job itself
+        # spark_monitor_job = SparkKubernetesSensor(
+        #     task_id="spark-monitor",
+        #     namespace=global_vars["k8s_namespace"],
+        #     kubernetes_conn_id=global_vars["k8s_connection_id"],
+        #     application_name=kubernetes_spark_monitoring_task
+        #     % "{}.spark-submit".format(task_group_key),
+        #     dag=dag,
+        #     attach_log=True
+        # )
 
         airflow_tasks_list.append(spark_submit_job)
-        airflow_tasks_list.append(spark_monitor_job)
+        # airflow_tasks_list.append(spark_monitor_job)
 
         return airflow_tasks_list
 
@@ -446,7 +447,7 @@ class DagCommons:
             "dag_id": airflow_dag_details_from_config["dag_id"],
             "default_args": {'max_active_runs': 1},
             "description": airflow_dag_details_from_config.get("dag_description", None),
-            "schedule_interval": airflow_pipeline_vars.get("schedule_interval", None),
+            "schedule": airflow_pipeline_vars.get("schedule", None),
             "start_date": airflow_pipeline_vars["start_date"],
             "catchup": False,
             "tags": airflow_pipeline_vars.get("tags", None)
@@ -525,9 +526,9 @@ class DagCommons:
         dependency_tuples_list = []
 
         if "start" not in [n[1] for n in all_nodes_list]:
-            all_nodes_list.insert(0, (DummyOperator(task_id="start", dag=dag), "start"))
+            all_nodes_list.insert(0, (EmptyOperator(task_id="start", dag=dag), "start"))
         if "end" not in [n[1] for n in all_nodes_list]:
-            all_nodes_list.append((DummyOperator(task_id="end", dag=dag), "end"))
+            all_nodes_list.append((EmptyOperator(task_id="end", dag=dag), "end"))
 
         if aiflow_task_dependencies_details and "parent-child-relation" in aiflow_task_dependencies_details:
             parent_child = aiflow_task_dependencies_details["parent-child-relation"]
@@ -549,7 +550,7 @@ class DagCommons:
                         config_task_names_list.append(deps[1])
                 for task_name in set(config_task_names_list):
                     if task_name not in nodes_names_list:
-                        all_nodes_list.append((DummyOperator(task_id=task_name, dag=dag), task_name))
+                        all_nodes_list.append((EmptyOperator(task_id=task_name, dag=dag), task_name))
                 for config_current_task_name in aiflow_task_dependencies_details.keys():
                     current_node = next(
                         node[0] for node in all_nodes_list if node[1] == config_current_task_name
@@ -599,12 +600,14 @@ with DAG(**dag_arguments) as dag:
     dag_default_args.update({'on_failure_callback': on_failure_callback})
     DagCommons.build_task_group(dag, configs, global_vars, airflow_pipeline_vars)
 
-    wait_leave = ExternalTaskSensor(
-        task_id="wait_leave_data",
-        external_dag_id="leave_data",
-        external_task_id="end",
-        **upstream_sensor_kwargs("leave_data", "end"),
-    )
+    # TEMP: removed - pipeline_chain queries the metadata DB, not allowed in Airflow 3.
+    # leave_data now triggers this DAG when it finishes.
+    # wait_leave = ExternalTaskSensor(
+    #     task_id="wait_leave_data",
+    #     external_dag_id="leave_data",
+    #     external_task_id="end",
+    #     **upstream_sensor_kwargs("leave_data", "end"),
+    # )
     trigger_employee_data = TriggerDagRunOperator(
         task_id="trigger_employee_data",
         trigger_dag_id="employee_data",
@@ -614,4 +617,5 @@ with DAG(**dag_arguments) as dag:
     )
 
     end = dag.get_task("end")
-    end >> wait_leave >> trigger_employee_data
+    # end >> wait_leave >> trigger_employee_data  TEMP
+    end >> trigger_employee_data

@@ -19,8 +19,8 @@ logger = logging.getLogger()
 # Upload workbooks to MinIO lakehouse by year/month, e.g.:
 #   mc cp "DailyAttendance_July.xlsx" lakehouse/saal_employee/onsite_employee/2026/july/
 DEFAULT_ONSITE_EXCEL_PATH = "s3a://lakehouse/saal_employee/onsite_employee/"
-DEFAULT_ONSITE_TABLE = "raw.employee.onsite_employee"
-DEFAULT_ONSITE_HISTORY_TABLE = "raw.employee.onsite_employee_history"
+DEFAULT_ONSITE_TABLE = "dataproducts.raw.onsite_employee"
+DEFAULT_ONSITE_HISTORY_TABLE = "dataproducts.raw.onsite_employee_history"
 REPORTING_YEAR_COL = "reporting_year"
 REPORTING_MONTH_COL = "reporting_month"
 _MONTH_FOLDER_NAMES = frozenset(
@@ -383,7 +383,7 @@ def assert_onsite_clocks_landed(rows):
     if rows and usable == 0:
         raise ValueError(
             "Onsite Excel loaded 0 parseable clock_in values. Refusing to overwrite "
-            "raw.employee.onsite_employee (stg_onsite_employee.first_punch_in would "
+            "dataproducts.raw.onsite_employee (stg_onsite_employee.first_punch_in would "
             "stay null). Deploy onsite_employee.py and confirm Clock In in the "
             "landing workbook, e.g. 06:59."
         )

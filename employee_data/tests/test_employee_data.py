@@ -74,19 +74,19 @@ def test_unreachable_error_names_the_host_and_config_key() -> None:
 
 def test_iceberg_write_helpers_use_raw_employee() -> None:
     table = DEFAULT_METRICS_TABLE
-    assert iceberg_namespace(table) == "raw.employee"
-    assert iceberg_schema_location(table) == "s3a://raw/employee"
+    assert iceberg_namespace(table) == "dataproducts.raw"
+    assert iceberg_schema_location(table) == "s3a://dataproducts/raw"
     assert iceberg_table_location(table) == (
-        "s3a://raw/employee/employee_attendance_metrics"
+        "s3a://dataproducts/raw/employee_attendance_metrics"
     )
     namespace_sql = iceberg_create_namespace_sql(table)
     assert namespace_sql == (
-        "CREATE NAMESPACE IF NOT EXISTS raw.employee LOCATION 's3a://raw/employee'"
+        "CREATE NAMESPACE IF NOT EXISTS dataproducts.raw LOCATION 's3a://dataproducts/raw'"
     )
     sql = iceberg_create_table_sql(table, "`emp_code` string")
     assert "CREATE TABLE IF NOT EXISTS %s" % table in sql
     assert "USING iceberg" in sql
-    assert "LOCATION 's3a://raw/employee/employee_attendance_metrics'" in sql
+    assert "LOCATION 's3a://dataproducts/raw/employee_attendance_metrics'" in sql
     script = (SCRIPTS_DIR / "employee_data.py").read_text(encoding="utf-8")
     assert 'mode("Overwrite").save(' not in script
     assert "write_iceberg_overwrite(spark, df, table_path)" in script
@@ -214,7 +214,7 @@ def test_hr_email_is_resolved_by_employee_id() -> None:
         )
         == "Mahesh@saal.ai"
     )
-    assert DEFAULT_HR_TABLE == "raw.employee.employee_hr_data"
+    assert DEFAULT_HR_TABLE == "dataproducts.raw.employee_hr_data"
 
 
 def test_parse_iclock_page_follows_relative_next() -> None:

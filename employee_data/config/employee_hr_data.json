@@ -14,7 +14,7 @@
         },
         "spark_job_args": {
           "csv_s3_path": "s3a://workflows/employee_data/dependencies/resources/employee_hr_master - employee_master.csv",
-          "output_warehouse_fq_table": "raw.employee.employee_hr_data",
+          "output_warehouse_fq_table": "dataproducts.raw.employee_hr_data",
           "output_wh_table_load_strategy": "overwrite"
         }
       }
@@ -29,7 +29,7 @@
     "airflow-dag-details": {
       "dag_id": "employee_hr_data",
       "dag_description": "spark submit",
-      "catalog": "raw"
+      "catalog": "dataproducts"
     }
 
 }

@@ -29,21 +29,21 @@ class _FakeSchema:
 
 def test_default_history_table_name() -> None:
     assert (
-        default_history_table_name("raw.employee.onsite_employee")
-        == "raw.employee.onsite_employee_history"
+        default_history_table_name("dataproducts.raw.onsite_employee")
+        == "dataproducts.raw.onsite_employee_history"
     )
     assert (
-        default_history_table_name("raw.employee.leave_data_history")
-        == "raw.employee.leave_data_history"
+        default_history_table_name("dataproducts.raw.leave_data_history")
+        == "dataproducts.raw.leave_data_history"
     )
 
 
 def test_iceberg_history_delete_sql() -> None:
     sql = iceberg_history_delete_sql(
-        "raw.employee.onsite_employee_history", 2026, 8
+        "dataproducts.raw.onsite_employee_history", 2026, 8
     )
     assert sql == (
-        "DELETE FROM raw.employee.onsite_employee_history "
+        "DELETE FROM dataproducts.raw.onsite_employee_history "
         "WHERE reporting_year = 2026 AND reporting_month = 8"
     )
 
@@ -58,13 +58,13 @@ def test_history_create_sql_includes_period_ints() -> None:
     assert "`reporting_year` int" in ddl
     assert "`reporting_month` int" in ddl
     sql = iceberg_create_table_sql(
-        "raw.employee.onsite_employee_history", ddl
+        "dataproducts.raw.onsite_employee_history", ddl
     )
     assert sql.startswith(
-        "CREATE TABLE IF NOT EXISTS raw.employee.onsite_employee_history"
+        "CREATE TABLE IF NOT EXISTS dataproducts.raw.onsite_employee_history"
     )
     assert "USING iceberg" in sql
-    assert "LOCATION 's3a://raw/employee/onsite_employee_history'" in sql
+    assert "LOCATION 's3a://dataproducts/raw/onsite_employee_history'" in sql
     assert "DROP TABLE" not in sql
 
 
@@ -102,7 +102,7 @@ def test_airflow_configs_set_history_tables() -> None:
     leave = (config_dir / "leave_data.json").read_text(encoding="utf-8")
     metrics = (config_dir / "employee_data.json").read_text(encoding="utf-8")
     hr = (config_dir / "employee_hr_data.json").read_text(encoding="utf-8")
-    assert "raw.employee.onsite_employee_history" in onsite
-    assert "raw.employee.leave_data_history" in leave
-    assert "raw.employee.employee_attendance_metrics_history" in metrics
+    assert "dataproducts.raw.onsite_employee_history" in onsite
+    assert "dataproducts.raw.leave_data_history" in leave
+    assert "dataproducts.raw.employee_attendance_metrics_history" in metrics
     assert "history_table" not in hr

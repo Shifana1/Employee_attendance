@@ -71,13 +71,13 @@ logging = logging.getLogger()
 DEFAULT_ICLOCK_TRANSACTIONS_API = (
     "http://192.168.145.32:8081/iclock/api/transactions/?page_size=300000"
 )
-DEFAULT_METRICS_TABLE = "raw.employee.employee_attendance_metrics"
-DEFAULT_METRICS_HISTORY_TABLE = "raw.employee.employee_attendance_metrics_history"
+DEFAULT_METRICS_TABLE = "dataproducts.raw.employee_attendance_metrics"
+DEFAULT_METRICS_HISTORY_TABLE = "dataproducts.raw.employee_attendance_metrics_history"
 DEFAULT_ICLOCK_LANDING_PATH = "s3a://landing/employee/iclock_transactions/"
-DEFAULT_ONSITE_TABLE = "raw.employee.onsite_employee"
+DEFAULT_ONSITE_TABLE = "dataproducts.raw.onsite_employee"
 DEFAULT_ONSITE_EXCEL_PATH = "s3a://lakehouse/saal_employee/onsite_employee/"
 DEFAULT_ICLOCK_SOURCE = "api"
-DEFAULT_HR_TABLE = "raw.employee.employee_hr_data"
+DEFAULT_HR_TABLE = "dataproducts.raw.employee_hr_data"
 DEFAULT_ICLOCK_PAGE_SIZE = 300000
 REPORTING_YEAR_COL = "reporting_year"
 REPORTING_MONTH_COL = "reporting_month"

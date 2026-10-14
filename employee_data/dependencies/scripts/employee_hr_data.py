@@ -17,7 +17,7 @@ DEFAULT_HR_CSV_PATH = (
     "s3a://workflows/employee_data/dependencies/resources/"
     "employee_hr_master - employee_master.csv"
 )
-DEFAULT_HR_TABLE = "raw.employee.employee_hr_data"
+DEFAULT_HR_TABLE = "dataproducts.raw.employee_hr_data"
 
 # Warehouse names. Source CSV uses Employee ID as the real emp id (no badge emp_code).
 EMPLOYEE_HR_COLUMNS = [

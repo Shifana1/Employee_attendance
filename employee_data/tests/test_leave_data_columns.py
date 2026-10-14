@@ -106,9 +106,9 @@ def test_parse_leave_workbook_skips_title_and_totals() -> None:
 
 
 def test_iceberg_namespace_from_fully_qualified_table() -> None:
-    assert iceberg_namespace(DEFAULT_LEAVE_TABLE) == "raw.employee"
-    assert iceberg_schema_location(DEFAULT_LEAVE_TABLE) == "s3a://raw/employee"
-    assert iceberg_table_location(DEFAULT_LEAVE_TABLE) == "s3a://raw/employee/leave_data"
+    assert iceberg_namespace(DEFAULT_LEAVE_TABLE) == "dataproducts.raw"
+    assert iceberg_schema_location(DEFAULT_LEAVE_TABLE) == "s3a://dataproducts/raw"
+    assert iceberg_table_location(DEFAULT_LEAVE_TABLE) == "s3a://dataproducts/raw/leave_data"
 
 
 def test_iceberg_namespace_rejects_bare_table_name() -> None:
@@ -130,10 +130,10 @@ def test_create_table_sql_is_idempotent_iceberg_ddl() -> None:
     assert "`employee_id` string" in sql
     assert "`leave_type` string" in sql
     assert "USING iceberg" in sql
-    assert "LOCATION 's3a://raw/employee/leave_data'" in sql
+    assert "LOCATION 's3a://dataproducts/raw/leave_data'" in sql
     namespace_sql = iceberg_create_namespace_sql(table)
     assert namespace_sql == (
-        "CREATE NAMESPACE IF NOT EXISTS raw.employee LOCATION 's3a://raw/employee'"
+        "CREATE NAMESPACE IF NOT EXISTS dataproducts.raw LOCATION 's3a://dataproducts/raw'"
     )
 
 

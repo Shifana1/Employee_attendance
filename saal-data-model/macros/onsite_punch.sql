@@ -28,7 +28,7 @@
 
 {% macro parse_onsite_punch(clock_expr, date_expr) %}
     {#
-      raw.employee.onsite_employee.clock_in is "06:35", not a full timestamp.
+      dataproducts.raw.onsite_employee.clock_in is "06:35", not a full timestamp.
       try_cast('06:35' AS timestamp) is NULL. Build DATE + ' ' + HH:mm:ss.
       Format the date with %Y-%m-%d so we never get "2026-08-26 00:00:00.000".
     #}

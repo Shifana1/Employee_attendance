@@ -6,10 +6,10 @@ sources:
       Employee data from the attendance/HR system.
       Contains HR master records, raw attendance events, and daily
       attendance summaries.
-    # Spark employee_data / HR / leave / onsite write Iceberg here.
+    # Spark employee_data / HR / leave / onsite write Iceberg to dataproducts.raw.
     # The attendance report table is still dataproducts.employee.
-    database: raw
-    schema: employee
+    database: dataproducts
+    schema: raw
     tables:
       - name: employee_hr_data
         description: >

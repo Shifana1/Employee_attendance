@@ -77,10 +77,10 @@ def test_unknown_headers_are_preserved() -> None:
 
 
 def test_iceberg_namespace_from_fully_qualified_table() -> None:
-    assert iceberg_namespace(DEFAULT_ONSITE_TABLE) == "raw.employee"
-    assert iceberg_schema_location(DEFAULT_ONSITE_TABLE) == "s3a://raw/employee"
+    assert iceberg_namespace(DEFAULT_ONSITE_TABLE) == "dataproducts.raw"
+    assert iceberg_schema_location(DEFAULT_ONSITE_TABLE) == "s3a://dataproducts/raw"
     assert iceberg_table_location(DEFAULT_ONSITE_TABLE) == (
-        "s3a://raw/employee/onsite_employee"
+        "s3a://dataproducts/raw/onsite_employee"
     )
 
 
@@ -111,12 +111,12 @@ def test_create_table_sql_is_idempotent_iceberg_ddl() -> None:
     assert "`emp_no` string" in sql
     assert "`clock_in` string" in sql
     assert "USING iceberg" in sql
-    assert "LOCATION 's3a://raw/employee/onsite_employee'" in sql
+    assert "LOCATION 's3a://dataproducts/raw/onsite_employee'" in sql
     assert iceberg_create_namespace_sql(table) == (
-        "CREATE NAMESPACE IF NOT EXISTS raw.employee LOCATION 's3a://raw/employee'"
+        "CREATE NAMESPACE IF NOT EXISTS dataproducts.raw LOCATION 's3a://dataproducts/raw'"
     )
     assert iceberg_drop_table_sql(table) == (
-        "DROP TABLE IF EXISTS raw.employee.onsite_employee"
+        "DROP TABLE IF EXISTS dataproducts.raw.onsite_employee"
     )
     script = (SCRIPTS_DIR / "onsite_employee.py").read_text(encoding="utf-8")
     assert "Dropping Iceberg table so clock columns stay string" in script
@@ -124,7 +124,7 @@ def test_create_table_sql_is_idempotent_iceberg_ddl() -> None:
 
 def test_default_onsite_excel_path_uses_lakehouse_bucket() -> None:
     assert DEFAULT_ONSITE_EXCEL_PATH == "s3a://lakehouse/saal_employee/onsite_employee/"
-    assert DEFAULT_ONSITE_TABLE == "raw.employee.onsite_employee"
+    assert DEFAULT_ONSITE_TABLE == "dataproducts.raw.onsite_employee"
     script = (SCRIPTS_DIR / "onsite_employee.py").read_text(encoding="utf-8")
     assert "attach_hr_employee_id_by_email" not in script
     assert "load_hr_employee_id_by_email" not in script
